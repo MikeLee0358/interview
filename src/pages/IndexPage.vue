@@ -7,17 +7,8 @@
         <q-btn @click="handleAdd" color="primary" class="q-mt-md">新增</q-btn>
       </div>
 
-      <q-table
-        flat
-        bordered
-        ref="tableRef"
-        :rows="blockData"
-        :columns="(tableConfig as QTableProps['columns'])"
-        row-key="id"
-        hide-pagination
-        separator="cell"
-        :rows-per-page-options="[0]"
-      >
+      <q-table flat bordered ref="tableRef" :rows="blockData" :columns="(tableConfig as QTableProps['columns'])"
+        row-key="id" hide-pagination separator="cell" :rows-per-page-options="[0]">
         <template v-slot:header="props">
           <q-tr :props="props">
             <q-th v-for="col in props.cols" :key="col.name" :props="props">
@@ -29,34 +20,14 @@
 
         <template v-slot:body="props">
           <q-tr :props="props">
-            <q-td
-              v-for="col in props.cols"
-              :key="col.name"
-              :props="props"
-              style="min-width: 120px"
-            >
+            <q-td v-for="col in props.cols" :key="col.name" :props="props" style="min-width: 120px">
               <div>{{ col.value }}</div>
             </q-td>
             <q-td class="text-right" auto-width v-if="tableButtons.length > 0">
-              <q-btn
-                @click="handleClickOption(btn, props.row)"
-                v-for="(btn, index) in tableButtons"
-                :key="index"
-                size="sm"
-                color="grey-6"
-                round
-                dense
-                :icon="btn.icon"
-                class="q-ml-md"
-                padding="5px 5px"
-              >
-                <q-tooltip
-                  transition-show="scale"
-                  transition-hide="scale"
-                  anchor="top middle"
-                  self="bottom middle"
-                  :offset="[10, 10]"
-                >
+              <q-btn @click="handleClickOption(btn, props.row)" v-for="(btn, index) in tableButtons" :key="index"
+                size="sm" color="grey-6" round dense :icon="btn.icon" class="q-ml-md" padding="5px 5px">
+                <q-tooltip transition-show="scale" transition-hide="scale" anchor="top middle" self="bottom middle"
+                  :offset="[10, 10]">
                   {{ btn.label }}
                 </q-tooltip>
               </q-btn>
@@ -64,10 +35,7 @@
           </q-tr>
         </template>
         <template v-slot:no-data="{ icon }">
-          <div
-            class="full-width row flex-center items-center text-primary q-gutter-sm"
-            style="font-size: 18px"
-          >
+          <div class="full-width row flex-center items-center text-primary q-gutter-sm" style="font-size: 18px">
             <q-icon size="2em" :name="icon" />
             <span> 無相關資料 </span>
           </div>
@@ -78,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import { ESTest } from 'escss-estest';
 import axios from 'axios';
+import { ESTest } from 'escss-estest';
 import { QTableProps } from 'quasar';
 import { onMounted, ref } from 'vue';
 
@@ -155,7 +123,7 @@ function handleAdd() {
   // ...
   {
     ESTest(tempData.value.name, 'string');
-    ESTest(tempData.value.age, 'array');
+    ESTest(tempData.value.age, 'string');
   }
 
   axios
