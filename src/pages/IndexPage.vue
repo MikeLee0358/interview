@@ -4,7 +4,7 @@
       <div class="q-mb-xl">
         <q-input v-model="tempData.name" label="姓名" />
         <q-input v-model="tempData.age" label="年齡" />
-        <q-btn color="primary" class="q-mt-md">新增</q-btn>
+        <q-btn @click="handleAdd" color="primary" class="q-mt-md">新增</q-btn>
       </div>
 
       <q-table
@@ -78,14 +78,11 @@
 </template>
 
 <script setup lang="ts">
+import { ESTest } from 'escss-estest';
 import axios from 'axios';
 import { QTableProps } from 'quasar';
-import { ref } from 'vue';
-interface btnType {
-  label: string;
-  icon: string;
-  status: string;
-}
+import { onMounted, ref } from 'vue';
+
 const blockData = ref([
   {
     name: 'test',
@@ -124,8 +121,56 @@ const tempData = ref({
   age: '',
 });
 function handleClickOption(btn, data) {
-  // ...
+  if (btn.status === 'edit') {
+    // axios.patch('https://dahua.metcfire.com.tw/api/CRUDTest').then((res) => {
+    //   console.log(res)
+    //   getData()
+    // })
+  } else if (btn.status === 'delete') {
+    axios
+      .delete(`https://dahua.metcfire.com.tw/api/CRUDTest/${data.id}`)
+      .then(() => {
+        getData();
+      });
+  }
 }
+
+function getData() {
+  axios
+    .get('https://dahua.metcfire.com.tw/api/CRUDTest/a')
+    .then(function (response) {
+      {
+        ESTest(response.data, 'array');
+        ESTest(response.data[0].id, 'string');
+        ESTest(response.data[0].name, 'string');
+        ESTest(response.data[0].age, 'number');
+      }
+
+      // handle success
+      blockData.value = response.data;
+    });
+}
+
+function handleAdd() {
+  // ...
+  {
+    ESTest(tempData.value.name, 'string');
+    ESTest(tempData.value.age, 'array');
+  }
+
+  axios
+    .post('https://dahua.metcfire.com.tw/api/CRUDTest', {
+      name: tempData.value.name,
+      age: tempData.value.age,
+    })
+    .then(() => {
+      getData();
+    });
+}
+
+onMounted(() => {
+  getData();
+});
 </script>
 
 <style lang="scss" scoped>
